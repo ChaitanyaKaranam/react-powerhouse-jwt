@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { SECRET, USER_DB, RSECRET } = require('../../config');
+const { SECRET, USER_DB, RSECRET, TOKEN_TYPE } = require('../../config');
 
 async function authenticate(payload) {
     return new Promise((resolve, reject) => {
@@ -14,9 +14,12 @@ async function authenticate(payload) {
 }
 
 function generateToken(payload) {
-    let accesstoken = jwt.sign(payload, SECRET);
-    let refreshtoken = jwt.sign(payload, RSECRET);
-    return { accesstoken, refreshtoken };
+    if (payload) {
+        const accesstoken = jwt.sign(payload, SECRET);
+        const refreshtoken = jwt.sign(payload, RSECRET);
+        return { accesstoken, refreshtoken };
+    }
+    return null;
 }
 
 function getPayload(token) {
@@ -26,7 +29,22 @@ function getPayload(token) {
     return null;
 }
 
+function isTokenValid(token, tokenType) {
+    if (token && tokenType) {
+        const secret = tokenType === TOKEN_TYPE.ACCESS ? SECRET : RSECRET;
+        try {
+            jwt.verify(token, secret);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    return false;
+}
+
 module.exports = {
     authenticate,
     getPayload,
+    isTokenValid,
+    generateToken,
 };

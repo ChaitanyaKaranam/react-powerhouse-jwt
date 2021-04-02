@@ -16,8 +16,14 @@ const USER_DB = {
     },
 };
 
+const TOKEN_TYPE = {
+    ACCESS: 'access',
+    REFRESH: 'refresh',
+};
+
 module.exports = {
     SECRET,
     RSECRET,
     USER_DB,
+    TOKEN_TYPE,
 };

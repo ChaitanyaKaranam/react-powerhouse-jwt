@@ -4,7 +4,7 @@ const router = express.Router();
 
 const AVAILABLE_ROUTES = [
     {
-        path: '/login',
+        path: '/api/auth/login',
     },
 ];
 
