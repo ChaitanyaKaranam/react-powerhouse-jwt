@@ -4,6 +4,8 @@ const fs = require('fs');
 const app = express();
 const api = require('./routes');
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Backend authentication service');
 });
