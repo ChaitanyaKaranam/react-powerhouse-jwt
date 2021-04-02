@@ -16,6 +16,11 @@ const USER_DB = {
     },
 };
 
+const ROLES_DB = {
+    ADMIN: 'admin',
+    USER: 'user',
+};
+
 const TOKEN_TYPE = {
     ACCESS: 'access',
     REFRESH: 'refresh',
@@ -25,5 +30,6 @@ module.exports = {
     SECRET,
     RSECRET,
     USER_DB,
+    ROLES_DB,
     TOKEN_TYPE,
 };

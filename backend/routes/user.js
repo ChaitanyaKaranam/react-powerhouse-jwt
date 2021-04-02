@@ -8,8 +8,14 @@ const AVAILABLE_ROUTES = [
     },
 ];
 
-router.get('/', authenticateRoute, (req, res) => {
+router.use('/', authenticateRoute);
+
+router.get('/', (req, res) => {
     res.send(AVAILABLE_ROUTES);
+});
+
+router.get('/details', (req, res) => {
+    res.send('success');
 });
 
 module.exports = router;
