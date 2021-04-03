@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { useUserDetails } from '../context/UserContext';
-import { useHistory } from 'react-router';
+import { Redirect, useLocation } from 'react-router';
 
 const useStyles = makeStyles({
     root: {
@@ -48,7 +48,8 @@ function Login(props) {
     const classes = useStyles();
     const [formData, setFormData] = useState({});
     const { setUserDetails } = useUserDetails();
-    const history = useHistory();
+    const [redirect, setRedirect] = useState(false);
+    const { state } = useLocation();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -67,7 +68,7 @@ function Login(props) {
             .then((res) => {
                 console.log(res);
                 setUserDetails(res);
-                history.push('/');
+                setRedirect(true);
             })
             .catch((err) => console.log(err));
     };
@@ -77,6 +78,10 @@ function Login(props) {
         newFormData[type] = value;
         setFormData(newFormData);
     };
+
+    if (redirect) {
+        return <Redirect to={state && state.from ? state.from : '/'} />;
+    }
 
     return (
         <div className={classes.root}>
