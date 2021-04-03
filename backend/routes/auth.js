@@ -1,4 +1,5 @@
 const express = require('express');
+const { authenticateRoute } = require('../middlewares/auth');
 const { authenticate, getPayload } = require('../services/auth');
 const router = express.Router();
 
@@ -38,6 +39,19 @@ router.post('/login', (req, res) => {
             console.log(err);
             return res.status(401).send('Invalid username/ password');
         });
+});
+
+router.get('/verify', authenticateRoute, (req, res) => {
+    if (req.cookies) {
+        const { accesstoken } = req.cookies;
+        let token = accesstoken ? accesstoken : res.locals.accesstoken;
+        const payload = getPayload(token);
+        return res.status(200).send(payload);
+    }
+    return res.status(400).send({
+        status: 400,
+        statusText: 'Bad request',
+    });
 });
 
 module.exports = router;

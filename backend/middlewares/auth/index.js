@@ -12,7 +12,10 @@ function authenticateRoute(req, res, next) {
             if (isTokenValid(accesstoken, TOKEN_TYPE.ACCESS)) {
                 return next();
             }
-            return res.status(401).send('Unauthorized');
+            return res.status(401).send({
+                status: 401,
+                statusText: 'Unauthorized',
+            });
         }
         if (refreshtoken) {
             if (isTokenValid(refreshtoken, TOKEN_TYPE.REFRESH)) {
@@ -28,10 +31,16 @@ function authenticateRoute(req, res, next) {
                 });
                 return next();
             }
-            return res.status(401).send('Unauthorized');
+            return res.status(401).send({
+                status: 401,
+                statusText: 'Unauthorized',
+            });
         }
     }
-    return res.status(401).send('Unauthorized');
+    return res.status(401).send({
+        status: 401,
+        statusText: 'Unauthorized',
+    });
 }
 
 function adminRoute(req, res, next) {
